@@ -16,6 +16,7 @@ import pandas as pd
 import geopandas as gpd
 import matplotlib.pyplot as plt
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
+from matplotlib.colors import LinearSegmentedColormap
 
 try:
     import pycountry
@@ -39,7 +40,8 @@ DEFAULT_WATERMARK = os.path.join(os.path.dirname(__file__), 'assets', 'watermark
 
 # == Configuration (tweak these at the top of the file) ==
 # Colormap for static matplotlib plot (common matplotlib colormap name)
-DEFAULT_COLORMAP = 'OrRd'
+# DEFAULT_COLORMAP = LinearSegmentedColormap.from_list("custom_red_green", ["red", "green"])
+DEFAULT_COLORMAP = 'RdYlGn'
 # Colormap / fill color for interactive folium map
 DEFAULT_INTERACTIVE_COLORMAP = 'YlOrRd'
 # Title template for plots; can include `{value_col}` to insert the column name
