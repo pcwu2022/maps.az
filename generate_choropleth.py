@@ -26,6 +26,16 @@ try:
     import folium
 except Exception:
     folium = None
+try:
+    from PIL import Image
+    PIL_AVAILABLE = True
+except Exception:
+    Image = None
+    PIL_AVAILABLE = False
+
+# Watermark path (relative to this script). If the file exists, it will be
+# overlaid centered on every generated PNG. Set to None to disable.
+DEFAULT_WATERMARK = os.path.join(os.path.dirname(__file__), 'assets', 'watermark.png')
 
 # == Configuration (tweak these at the top of the file) ==
 # Colormap for static matplotlib plot (common matplotlib colormap name)
@@ -188,6 +198,36 @@ def generate_static_map(merged_gdf, value_col, out_png,
     # full-figure image with minimal margins.
     fig.savefig(out_png, dpi=dpi, bbox_inches=None, pad_inches=0)
     print(f"Saved static map to {out_png}")
+
+    # If a watermark image exists, try to overlay it centered on the PNG.
+    try:
+        wm_path = DEFAULT_WATERMARK
+        if wm_path and os.path.exists(wm_path) and PIL_AVAILABLE:
+            try:
+                bg = Image.open(out_png).convert('RGBA')
+                wm = Image.open(wm_path).convert('RGBA')
+                bw, bh = bg.size
+                ww, wh = wm.size
+                # scale watermark if it's wider than 30% of background width
+                max_w = int(bw * 0.30)
+                if ww > max_w:
+                    scale = max_w / ww
+                    new_w = max(1, int(ww * scale))
+                    new_h = max(1, int(wh * scale))
+                    wm = wm.resize((new_w, new_h), resample=Image.LANCZOS)
+                    ww, wh = wm.size
+
+                # position centered
+                pos = ((bw - ww) // 2, (bh - wh) // 2)
+                bg.paste(wm, pos, wm)
+                bg.save(out_png)
+                print(f"Applied watermark from {wm_path} to {out_png}")
+            except Exception as e:
+                print(f"Warning: failed to apply watermark: {e}")
+        elif wm_path and os.path.exists(wm_path) and not PIL_AVAILABLE:
+            print("Notice: watermark present but Pillow is not installed; install pillow to enable watermarking.")
+    except Exception:
+        pass
 
 
 def generate_interactive_map(merged_gdf, value_col, out_html, fill_color=DEFAULT_INTERACTIVE_COLORMAP, missing_color=DEFAULT_MISSING_COLOR):
