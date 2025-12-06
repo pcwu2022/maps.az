@@ -282,28 +282,40 @@ def main():
             sys.exit(1)
 
     # Normalize common ISO column names to `iso_a3` so merging is consistent.
-    iso_candidates = [c for c in world.columns if c.lower() in (
-        'iso_a3', 'iso3', 'iso', 'iso_a3', 'adm0_a3', 'adm0_a3', 'adm0_a3')]
-    if iso_candidates:
-        # prefer exact match 'iso_a3' if present, otherwise pick the first candidate
-        chosen = None
-        for c in iso_candidates:
-            if c == 'iso_a3' or c.lower() == 'iso_a3':
-                chosen = c
-                break
-        if chosen is None:
-            chosen = iso_candidates[0]
-        if chosen != 'iso_a3':
-            world = world.rename(columns={chosen: 'iso_a3'})
-    else:
-        # try uppercase variants
-        iso_candidates = [c for c in world.columns if c.upper() in ('ISO_A3', 'ADM0_A3', 'ISO3')]
-        if iso_candidates:
-            chosen = iso_candidates[0]
-            world = world.rename(columns={chosen: 'iso_a3'})
-        else:
-            print("Error: couldn't find an ISO3-like column in the Natural Earth dataset. Columns:", list(world.columns))
-            sys.exit(1)
+    # Natural Earth has several ISO-like columns; some (like `ISO_A3`) may
+    # contain sentinel values such as '-99'. Prefer the candidate column that
+    # contains the most valid 3-letter alpha codes (e.g. 'FRA', 'NOR').
+    def choose_iso_column(gdf):
+        candidates = [c for c in gdf.columns if c.lower() in (
+            'iso_a3', 'iso3', 'iso', 'adm0_a3')]
+        # also include uppercase variants if present
+        if not candidates:
+            candidates = [c for c in gdf.columns if c.upper() in ('ISO_A3', 'ADM0_A3', 'ISO3')]
+        if not candidates:
+            return None
+
+        def score_col(col):
+            vals = gdf[col].dropna().astype(str).str.strip()
+            # count entries that look like valid alpha-3 codes (3 letters, not '-99'/'0')
+            good = vals[vals.str.len() == 3]
+            good = good[good.str.isalpha()]
+            good = good[~good.isin(['-99', '0'])]
+            return len(good)
+
+        scored = [(score_col(c), c) for c in candidates]
+        # pick candidate with highest score
+        scored.sort(reverse=True)
+        best_score, best_col = scored[0]
+        if best_score == 0:
+            return None
+        return best_col
+
+    chosen = choose_iso_column(world)
+    if chosen is None:
+        print("Error: couldn't find an ISO3-like column in the Natural Earth dataset. Columns:", list(world.columns))
+        sys.exit(1)
+    if chosen != 'iso_a3':
+        world = world.rename(columns={chosen: 'iso_a3'})
 
     # Normalize values in the Natural Earth ISO column to uppercase 3-letter codes and set invalids to None
     def _normalize_world_iso(code):
