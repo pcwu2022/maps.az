@@ -1,0 +1,147 @@
+country,country_ISO,university,value
+Afghanistan,AFG,Kabul University,3
+Albania,ALB,University of Tirana,3
+Andorra,AND,University of Andorra,1
+Argentina,ARG,Universidad de Buenos Aires,3
+Armenia,ARM,Yerevan State University,3
+Australia,AUS,The University of Melbourne,2
+Austria,AUT,University of Vienna,3
+Azerbaijan,AZE,Baku State University,3
+Bahamas,BHS,University of The Bahamas,1
+Bangladesh,BGD,University of Dhaka,3
+Belarus,BLR,Belarusian State University,1
+Belgium,BEL,KU Leuven,2
+Belize,BLZ,University of Belize,1
+Benin,BEN,University of Abomey-Calavi,2
+Bhutan,BTN,Royal University of Bhutan,1
+Bosnia and Herzegovina,BIH,University of Sarajevo,3
+Botswana,BWA,University of Botswana,1
+Brazil,BRA,Universidade de São Paulo,2
+Brunei,BRN,Universiti Brunei Darussalam,1
+Bulgaria,BGR,Sofia University "St. Kliment Ohridski",3
+Burundi,BDI,University of Burundi,1
+Cabo Verde,CPV,University of Cabo Verde,1
+Cambodia,KHM,Royal University of Phnom Penh,3
+Cameroon,CMR,University of Yaounde I,3
+Canada,CAN,University of Toronto,2
+Central African Republic,CAF,University of Bangui,3
+Chad,TCD,University of N'Djamena,3
+Chile,CHL,Pontificia Universidad Católica de Chile,1
+China,CHN,Peking University,3
+Colombia,COL,Universidad Nacional de Colombia,1
+Comoros,COM,University of the Comoros,1
+Congo (Kinshasa),COD,University of Kinshasa,3
+Costa Rica,CRI,University of Costa Rica,1
+Croatia,HRV,University of Zagreb,3
+Cuba,CUB,University of Havana,3
+Cyprus,CYP,University of Cyprus,1
+Denmark,DNK,University of Copenhagen,3
+Djibouti,DJI,University of Djibouti,3
+Ecuador,ECU,Universidad San Francisco de Quito (USFQ),3
+Egypt,EGY,American University in Cairo (AUC),3
+El Salvador,SLV,University of El Salvador,1
+Equatorial Guinea,GNQ,National University of Equatorial Guinea,1
+Eritrea,ERI,Eritrea Institute of Technology,1
+Estonia,EST,University of Tartu,2
+Eswatini,SWZ,University of Eswatini,1
+Ethiopia,ETH,Addis Ababa University,3
+Finland,FIN,University of Helsinki,3
+France,FRA,Paris Sciences et Lettres (PSL),3
+Gambia,GMB,University of The Gambia,1
+Georgia,GEO,Ivane Javakhishvili Tbilisi State University,3
+Germany,DEU,Technical University of Munich,2
+Ghana,GHA,University of Ghana,1
+Greece,GRC,National and Kapodistrian University of Athens,3
+Guatemala,GTM,Universidad de San Carlos de Guatemala,1
+Guinea,GIN,Gamal Abdel Nasser University of Conakry,3
+Guyana,GUY,University of Guyana,1
+Haiti,HTI,State University of Haiti,1
+Honduras,HND,National Autonomous University of Honduras,1
+Iceland,ISL,University of Iceland,1
+India,IND,Indian Institute of Science,1
+Indonesia,IDN,Universitas Indonesia,1
+Iraq,IRQ,University of Baghdad,3
+Ireland,IRL,Trinity College Dublin,3
+Israel,ISR,Tel Aviv University,2
+Italy,ITA,Politecnico di Milano,2
+Japan,JPN,The University of Tokyo,3
+Jordan,JOR,University of Jordan,1
+Kenya,KEN,University of Nairobi,3
+Korea (South),KOR,Seoul National University,3
+Kuwait,KWT,Kuwait University,1
+Kyrgyzstan,KGZ,Kyrgyz National University,1
+Laos,LAO,National University of Laos,1
+Latvia,LVA,University of Latvia,1
+Lebanon,LBN,American University of Beirut (AUB),3
+Lesotho,LSO,National University of Lesotho,1
+Liberia,LBR,University of Liberia,1
+Libya,LBY,University of Tripoli,3
+Liechtenstein,LIE,University of Liechtenstein,1
+Lithuania,LTU,Vilnius University,3
+Luxembourg,LUX,University of Luxembourg,1
+Madagascar,MDG,University of Antananarivo,3
+Malawi,MWI,University of Malawi,1
+Malaysia,MYS,Universiti Malaya (UM),1
+Maldives,MDV,Maldives National University,1
+Mali,MLI,University of Bamako,3
+Malta,MLT,University of Malta,1
+Marshall Islands,MHL,College of the Marshall Islands,1
+Mauritania,MRT,University of Nouakchott,3
+Mauritius,MUS,University of Mauritius,1
+Mexico,MEX,Tecnológico de Monterrey,2
+Micronesia,FSM,College of Micronesia-FSM,1
+Moldova,MDA,Moldova State University,1
+Monaco,MCO,International University of Monaco,1
+Mongolia,MNG,National University of Mongolia,1
+Montenegro,MNE,University of Montenegro,1
+Morocco,MAR,Mohammed V University in Rabat,3
+Myanmar,MMR,University of Yangon,2
+Namibia,NAM,University of Namibia,1
+Netherlands,NLD,Delft University of Technology,2
+New Zealand,NZL,The University of Auckland,2
+Nicaragua,NIC,National Autonomous University of Nicaragua,1
+Nigeria,NGA,University of Ibadan,2
+North Macedonia,MKD,Ss. Cyril and Methodius University of Skopje,3
+Norway,NOR,University of Oslo,3
+Palau,PLW,Palau Community College,1
+Panama,PAN,University of Panama,1
+Papua New Guinea,PNG,University of Papua New Guinea,1
+Paraguay,PRY,National University of Asunción,3
+Peru,PER,Pontificia Universidad Católica del Perú,1
+Philippines,PHL,University of the Philippines,1
+Portugal,PRT,University of Lisbon,3
+Qatar,QAT,Qatar University,1
+Rwanda,RWA,University of Rwanda,1
+Samoa,WSM,National University of Samoa,1
+San Marino,SMR,University of the Republic of San Marino,1
+São Tomé and Príncipe,STP,University of São Tomé and Príncipe,1
+Serbia,SRB,University of Belgrade,3
+Seychelles,SYC,University of Seychelles,1
+Sierra Leone,SLE,University of Sierra Leone,1
+Singapore,SGP,National University of Singapore,1
+Slovakia,SVK,Comenius University in Bratislava,3
+Slovenia,SVN,University of Ljubljana,3
+Somalia,SOM,Mogadishu University,3
+South Africa,ZAF,University of Cape Town,2
+South Sudan,SSD,University of Juba,3
+Spain,ESP,University of Barcelona,2
+Sri Lanka,LKA,University of Colombo,3
+Sudan,SDN,University of Khartoum,3
+Suriname,SUR,Anton de Kom University of Suriname,1
+Switzerland,CHE,ETH Zurich,2
+Syria,SYR,Damascus University,3
+Taiwan,TWN,National Taiwan University (NTU),1
+Tajikistan,TJK,Tajik National University,1
+Tanzania,TZA,University of Dar es Salaam,2
+Timor-Leste,TLS,National University of East Timor,1
+Togo,TGO,University of Lomé,3
+Turkmenistan,TKM,Turkmen State University,1
+Ukraine,UKR,Taras Shevchenko National University of Kyiv,3
+United Kingdom,GBR,University of Oxford,2
+Uruguay,URY,University of the Republic,1
+Uzbekistan,UZB,National University of Uzbekistan,1
+Venezuela,VEN,Central University of Venezuela,1
+Vietnam,VNM,Vietnam National University,1
+Yemen,YEM,Sana'a University,3
+Zambia,ZMB,University of Zambia,1
+Zimbabwe,ZWE,University of Zimbabwe,1
