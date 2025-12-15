@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+  <title>Maps Showcase</title>
+  <style>
+    :root{--bg:#0f1724;--card:#0b1220;--accent:#6ee7b7;--muted:#9aa4b2}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial}
+    body{background:linear-gradient(180deg,#071028 0%, #071a2a 40%, #0b1220 100%);color:#e6eef6}
+    header{padding:28px 44px;text-align:center}
+    h1{margin:0;font-weight:600;letter-spacing:-0.02em;display:inline-flex;align-items:center;gap:12px}
+    img.logo{width:56px;height:56px;border-radius:50%;object-fit:cover;border:3px solid rgba(255,255,255,0.06);box-shadow:0 6px 18px rgba(2,6,23,0.6)}
+    a.header-link{color:inherit;text-decoration:none;display:inline-flex;align-items:center;gap:12px}
+    a.header-link:hover{opacity:0.95;transform:translateY(-2px)}
+    p.lead{color:var(--muted);margin:8px 0 0}
+
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:18px;padding:24px 44px}
+
+    .card{background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(0,0,0,0.06));border-radius:12px;padding:12px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 6px 20px rgba(2,6,23,0.6)}
+    .meta{display:flex;align-items:center;gap:12px;padding:8px}
+    .title{font-size:1.02rem;font-weight:600}
+    .desc{color:var(--muted);font-size:0.92rem;margin-top:6px}
+
+    .frame-wrap{height:420px;background:#071426;border-radius:8px;overflow:hidden;margin-top:8px;border:1px solid rgba(255,255,255,0.03)}
+    iframe{width:100%;height:100%;border:0}
+
+    footer{padding:18px 44px;color:var(--muted);font-size:0.9rem}
+
+    @media (max-width:520px){.grid{padding:12px}.frame-wrap{height:300px}}
+  </style>
+</head>
+<body>
+  <header>
+    <h1><a class="header-link" href="https://www.instagram.com/maps.az/" target="_blank" rel="noopener noreferrer"><img class="logo" src="assets/logo.png" alt="logo"><code>@&nbsp;maps.az</code></a></h1>
+    <p class="lead">We are a group of railway and map enthusiasts who make interesting maps for entertainment. <br> Follow us on Instagram by clicking on the icon above.</p>
+  </header>
+
+  <main id="main">
+    <div id="grid" class="grid"></div>
+  </main>
+
+  <footer class="container layout"><br /><small class="muted">Created by <a style="color:#60a5fa;" href="https://pcwu2022.github.io">Po-Chun Wu</a></small></footer>
+
+
+  <script>
+    async function loadConfig(){
+      try{
+        const r = await fetch('interactive.json');
+        if(!r.ok) throw new Error('Config not found');
+        const cfg = await r.json();
+        return cfg.maps || [];
+      }catch(e){
+        console.warn(e);
+        return [];
+      }
+    }
+
+    function makeCard(m){
+      const wrap = document.createElement('div'); wrap.className='card';
+      const meta = document.createElement('div'); meta.className='meta';
+      const t = document.createElement('div'); t.innerHTML = `<div class="title">${m.title||m.id||m.csv}</div>`;
+      meta.appendChild(t);
+      wrap.appendChild(meta);
+
+      const fh = m.iframe_height || 520;
+      const frameWrap = document.createElement('div'); frameWrap.className='frame-wrap';
+      frameWrap.style.height = (fh)+'px';
+      const ifr = document.createElement('iframe');
+      const src = `pages/${m.id || (m.csv||'').replace(/\.csv$/,'')}.html`;
+      ifr.src = src;
+      ifr.loading = 'lazy';
+      frameWrap.appendChild(ifr);
+
+      wrap.appendChild(frameWrap);
+      
+      //   const d = document.createElement('div'); d.innerHTML = `<div class="desc">${m.description || ''}</div>`;
+      //   wrap.appendChild(d);
+
+      return wrap;
+    }
+
+    (async ()=>{
+      const maps = await loadConfig();
+      const grid = document.getElementById('grid');
+      if(!maps.length){
+        grid.innerHTML = '<div style="grid-column:1/-1;color:#9aa4b2">No maps defined in interactive.json — edit that file to add maps, then run <code>python3 generate_pages.py</code>.</div>';
+        return;
+      }
+      for(const m of maps){
+        grid.appendChild(makeCard(m));
+      }
+    })();
+  </script>
+</body>
+</html>

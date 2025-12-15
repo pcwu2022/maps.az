@@ -1,0 +1,46 @@
+{
+    "schema_version": 1,
+    "notes": "List of interactive maps to generate. Each entry describes a CSV in inputs/.",
+    "maps": [
+        {
+            "id": "punctuality",
+            "csv": "punctuality.csv",
+            "title": "High Speed Rail Punctuality by Country",
+            "description": "Percentage of on-time high-speed rail services by country",
+            "value_col": "value",
+            "iso_col": "country_ISO",
+            "colormap": "PuBu",
+            "iframe_height": 520
+        },
+        {
+            "id": "qs_country",
+            "csv": "qs_country.csv",
+            "title": "Number of Top 100 Universities by Country",
+            "description": "Number of universities in the QS World University Rankings top 100 by country",
+            "value_col": "value",
+            "iso_col": "country_ISO",
+            "colormap": "YlGn",
+            "iframe_height": 520
+        },
+        {
+            "id": "track_length_per_capita",
+            "csv": "track_length_per_capita_iso3.csv",
+            "title": "Railway Track Length per Capita by Country",
+            "description": "Meters of railway track per person by country",
+            "value_col": "value",
+            "iso_col": "country_ISO",
+            "colormap": "RdYlGn",
+            "iframe_height": 520
+        },
+        {
+            "id": "track_length_per_area",
+            "csv": "track_length_per_area_iso3.csv",
+            "title": "Railway Track Length per Area by Country",
+            "description": "Meters of railway track per square kilometer by country",
+            "value_col": "value",
+            "iso_col": "country_ISO",
+            "colormap": "RdYlGn",
+            "iframe_height": 520
+        }
+    ]
+}
