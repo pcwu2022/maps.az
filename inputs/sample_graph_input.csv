@@ -1,0 +1,21 @@
+country,country_ISO,other_country_ISO
+China,CHN,TUR
+Turkey,TUR,USA
+United States,USA,POL
+Poland,POL,DEU
+Germany,DEU,RUS
+Russia,RUS,JPN
+Japan,JPN,FRA
+France,FRA,IND
+India,IND,BRA
+Brazil,BRA,CHN
+Mexico,MEX,CAN
+Canada,CAN,AUS
+Australia,AUS,ZAF
+South Africa,ZAF,NGA
+Nigeria,NGA,EGY
+Egypt,EGY,IDN
+Indonesia,IDN,PHL
+Philippines,PHL,THA
+Thailand,THA,VNM
+Vietnam,VNM,MEX

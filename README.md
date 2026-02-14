@@ -37,6 +37,28 @@ bash run.sh punctuality --title "Punctuality"
 
 This runs `generate_choropleth.py inputs/punctuality.csv --iso-col country_ISO --value-col value --output-prefix outputs/punctuality`.
 
+**Country Graph Generator**
+
+- `generate_country_graph.py` — build a directed graph from a CSV and render nodes masked with country flags.
+
+Example usage (defaults to `inputs/<name>.csv` and writes `outputs/<name>.png`):
+
+```bash
+python3 generate_country_graph.py inputs/sample_graph_input.csv
+python3 generate_country_graph.py inputs/sample_graph_input.csv --output outputs/mygraph.png
+python3 generate_country_graph.py inputs/sample_graph_input.csv --labels
+```
+
+CLI summary:
+- Positional: `csv` — path to CSV file with columns `country`, `country_ISO`, `other_country_ISO`.
+- `--output` — output PNG path (defaults to `outputs/<csv_basename>.png`).
+- `--labels` — show country name text below nodes (disabled by default).
+
+Notes:
+- The script tries to look up ISO2 codes from the provided ISO3 codes using `pycountry` to fetch flags from `https://flagcdn.com`.
+- Node sizes are proportional to in-degree so hubs appear larger and attract layout.
+- If a flag cannot be fetched, a grey circle is shown as a fallback.
+
 Appearance details
 - The static PNG uses a compact, full-figure world map and a small overlaid horizontal colorbar placed low over the map (lower-centre) so the map area is maximized.
 - The colorbar is semi-transparent and by default shows no label (so it doesn't display the raw column name). You can change appearance with `--colormap` and the top-level config variables in the script.

@@ -40,7 +40,7 @@ DEFAULT_WATERMARK = os.path.join(os.path.dirname(__file__), 'assets', 'watermark
 
 # == Configuration (tweak these at the top of the file) ==
 # Colormap for static matplotlib plot (common matplotlib colormap name)
-DEFAULT_COLORMAP = LinearSegmentedColormap.from_list("custom_red_blue", ["red", "pink", "purple"])
+DEFAULT_COLORMAP = LinearSegmentedColormap.from_list("custom_red_blue", ["#03a9fc", "purple", "red", "yellow", "green", "blue"])
 # DEFAULT_COLORMAP = 'RdYlGn'
 # DEFAULT_COLORMAP = LinearSegmentedColormap.from_list("mid_to_dark_green", ["#94ea91", "#002810"])
 # Colormap / fill color for interactive folium map

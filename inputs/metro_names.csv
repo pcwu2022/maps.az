@@ -1,0 +1,64 @@
+country,country_ISO,value
+Algeria,DZA,1
+Argentina,ARG,2
+Armenia,ARM,1
+Australia,AUS,1
+Austria,AUT,3
+Azerbaijan,AZE,1
+Bangladesh,BGD,1
+Belarus,BLR,1
+Belgium,BEL,1
+Brazil,BRA,1
+Bulgaria,BGR,1
+Canada,CAN,10
+Chile,CHL,1
+China,CHN,1
+Colombia,COL,1
+Czech Republic,CZE,1
+Denmark,DNK,1
+Dominican Republic,DOM,1
+Ecuador,ECU,1
+Egypt,EGY,1
+Finland,FIN,1
+France,FRA,1
+Georgia,GEO,1
+Germany,DEU,3
+Greece,GRC,1
+Hong Kong,HKG,4
+Hungary,HUN,1
+India,IND,1
+Indonesia,IDN,5
+Iran,IRN,1
+Italy,ITA,1
+Japan,JPN,6
+Kazakhstan,KAZ,1
+Malaysia,MYS,7
+Mauritius,MUS,1
+Mexico,MEX,1
+Netherlands,NLD,1
+Nigeria,NGA,8
+Norway,NOR,1
+Pakistan,PAK,1
+Panama,PAN,1
+Peru,PER,1
+Philippines,PHL,1
+Poland,POL,1
+Portugal,PRT,1
+Qatar,QAT,1
+Romania,ROU,1
+Russia,RUS,1
+Singapore,SGP,5
+South Korea,KOR,1
+Spain,ESP,1
+Sweden,SWE,1
+Switzerland,CHE,1
+Taiwan,TWN,1
+Thailand,THA,9
+Turkey,,1
+Ukraine,UKR,1
+United Arab Emirates,ARE,1
+United Kingdom,GBR,1
+United States,USA,10
+Uzbekistan,UZB,1
+Venezuela,VEN,1
+Vietnam,VNM,1
