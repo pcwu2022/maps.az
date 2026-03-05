@@ -1,0 +1,57 @@
+country,country_ISO,value
+China,CHN,1
+Taiwan,TWN,1
+United States,USA,2
+Japan,JPN,1
+Philippines,PHL,1
+Australia,AUS,1
+Russia,RUS,2
+Poland,POL,1
+Germany,DEU,1
+France,FRA,1
+United Kingdom,GBR,1
+Estonia,EST,1
+Latvia,LVA,1
+Lithuania,LTU,1
+Finland,FIN,1
+Sweden,SWE,1
+Iran,IRN,2
+Israel,ISR,2
+Saudi Arabia,SAU,2
+Lebanon,LBN,2
+North Korea,PRK,1
+South Korea,KOR,1
+Greece,GRC,1
+Turkey,TUR,1
+Ethiopia,ETH,2
+Eritrea,ERI,1
+Sudan,SDN,2
+Guyana,GUY,1
+Brazil,BRA,1
+Vietnam,VNM,1
+Thailand,THA,1
+Cambodia,KHM,1
+Canada,CAN,1
+Norway,NOR,1
+Denmark,DNK,1
+Yemen,YEM,2
+Syria,SYR,2
+Iraq,IRQ,2
+Libya,LBY,2
+United Arab Emirates,ARE,2
+Qatar,QAT,2
+Ukraine,UKR,2
+Democratic Republic of Congo,COD,2
+Somalia,SOM,2
+Mali,MLI,2
+Burkina Faso,BFA,2
+Niger,NER,2
+Nigeria,NGA,2
+Mozambique,MOZ,2
+Myanmar,MMR,2
+Afghanistan,AFG,2
+Pakistan,PAK,2
+India,IND,1
+Ecuador,ECU,2
+Haiti,HTI,2
+Colombia,COL,2

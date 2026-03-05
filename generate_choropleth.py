@@ -78,6 +78,11 @@ def auto_detect_columns(df):
     value_candidates = [c for c in df.columns if c.lower() in ("value", "val", "metric", "score")]
     # detect ISO-ish columns
     iso_candidates = [c for c in df.columns if c.lower() in ("iso", "iso3", "iso_a3", "country_iso", "country_iso3", "country_iso_a3", "country_iso_code")]
+    # Add more flexible matching for common patterns
+    if not iso_candidates:
+        iso_candidates = [c for c in df.columns if "iso" in c.lower()]
+    if not value_candidates:
+        value_candidates = [c for c in df.columns if "value" in c.lower() or "score" in c.lower() or "metric" in c.lower()]
     return (country_candidates[0] if country_candidates else None,
             value_candidates[0] if value_candidates else None,
             iso_candidates[0] if iso_candidates else None)
@@ -254,57 +259,55 @@ def generate_interactive_map(merged_gdf, value_col, out_html, fill_color=DEFAULT
     print(f"Saved interactive map to {out_html}")
 
 
+
 def main():
     p = argparse.ArgumentParser(description='Generate world choropleth from CSV')
     p.add_argument('csv', help='Path to CSV file (country-level)')
     p.add_argument('--country-col', help='Country column name in CSV')
     p.add_argument('--iso-col', help='ISO (alpha-3 or alpha-2) column name in CSV (preferred)')
     p.add_argument('--value-col', help='Numeric value column to plot')
-    p.add_argument('--output-prefix', default='outputs/choropleth', help='Output path prefix (no extension)')
+    # Output prefix defaults to outputs/<input_filename_without_ext>
+    p.add_argument('--output-prefix', help='Output path prefix (no extension)')
     p.add_argument('--interactive', action='store_true', help='Also generate interactive HTML map using folium')
     p.add_argument('--colormap', help=f"Matplotlib colormap for static plot (default: {DEFAULT_COLORMAP})")
     p.add_argument('--title', help=f"Title template for static plot; use '{{value_col}}' to insert column name (default: '{DEFAULT_TITLE_TEMPLATE}')")
     args = p.parse_args()
 
-    os.makedirs(os.path.dirname(args.output_prefix), exist_ok=True)
+    # Set output prefix to outputs/<input_filename_without_ext> if not provided
+    if args.output_prefix:
+        output_prefix = args.output_prefix
+    else:
+        input_basename = os.path.basename(args.csv)
+        input_name, _ = os.path.splitext(input_basename)
+        output_prefix = os.path.join('outputs', input_name)
+    os.makedirs(os.path.dirname(output_prefix), exist_ok=True)
 
     df = load_and_prepare(args.csv, args.country_col, args.value_col, args.iso_col)
 
     try:
         world = gpd.read_file(gpd.datasets.get_path('naturalearth_lowres'))
     except Exception:
-        # Newer geopandas versions removed the built-in datasets helper.
-        # Fall back to downloading Natural Earth countries (110m) from the S3 mirror.
         try:
             world = gpd.read_file("https://naturalearth.s3.amazonaws.com/110m_cultural/ne_110m_admin_0_countries.zip")
         except Exception as e:
             print("Error: couldn't load Natural Earth dataset via geopandas.\n", e)
-            print("If you're offline or behind a firewall, download the Natural Earth countries shapefile and pass its path." )
+            print("If you're offline or behind a firewall, download the Natural Earth countries shapefile and pass its path.")
             sys.exit(1)
 
-    # Normalize common ISO column names to `iso_a3` so merging is consistent.
-    # Natural Earth has several ISO-like columns; some (like `ISO_A3`) may
-    # contain sentinel values such as '-99'. Prefer the candidate column that
-    # contains the most valid 3-letter alpha codes (e.g. 'FRA', 'NOR').
     def choose_iso_column(gdf):
         candidates = [c for c in gdf.columns if c.lower() in (
             'iso_a3', 'iso3', 'iso', 'adm0_a3')]
-        # also include uppercase variants if present
         if not candidates:
             candidates = [c for c in gdf.columns if c.upper() in ('ISO_A3', 'ADM0_A3', 'ISO3')]
         if not candidates:
             return None
-
         def score_col(col):
             vals = gdf[col].dropna().astype(str).str.strip()
-            # count entries that look like valid alpha-3 codes (3 letters, not '-99'/'0')
             good = vals[vals.str.len() == 3]
             good = good[good.str.isalpha()]
             good = good[~good.isin(['-99', '0'])]
             return len(good)
-
         scored = [(score_col(c), c) for c in candidates]
-        # pick candidate with highest score
         scored.sort(reverse=True)
         best_score, best_col = scored[0]
         if best_score == 0:
@@ -318,7 +321,6 @@ def main():
     if chosen != 'iso_a3':
         world = world.rename(columns={chosen: 'iso_a3'})
 
-    # Normalize values in the Natural Earth ISO column to uppercase 3-letter codes and set invalids to None
     def _normalize_world_iso(code):
         try:
             if code is None:
@@ -334,12 +336,10 @@ def main():
 
     world['iso_a3'] = world['iso_a3'].map(_normalize_world_iso)
 
-    # Merge data onto world geometries using `iso_a3` keys
     merged = world.merge(df, how='left', left_on='iso_a3', right_on='iso_a3')
 
-    # Debugging output to help explain map results
     try:
-        valname = args.value_col
+        valname = args.value_col if args.value_col else auto_detect_columns(df)[1]
     except Exception:
         valname = None
     print(f"Input rows: {len(df)}; unique ISO codes in input: {df['iso_a3'].nunique()}")
@@ -353,14 +353,14 @@ def main():
     matched = merged[valname].notna().sum() if valname and valname in merged.columns else merged['iso_a3'].notna().sum()
     print(f"World rows: {len(world)}; matched rows after merge (non-null '{valname}'): {matched}")
 
-    out_png = args.output_prefix + '.png'
+    out_png = output_prefix + '.png'
     colormap = args.colormap or DEFAULT_COLORMAP
     title_template = args.title or DEFAULT_TITLE_TEMPLATE
-    generate_static_map(merged, args.value_col, out_png, colormap=colormap, title_template=title_template)
+    generate_static_map(merged, valname, out_png, colormap=colormap, title_template=title_template)
 
     if args.interactive:
-        out_html = args.output_prefix + '.html'
-        generate_interactive_map(merged, args.value_col, out_html, fill_color=colormap)
+        out_html = output_prefix + '.html'
+        generate_interactive_map(merged, valname, out_html, fill_color=colormap)
 
 
 if __name__ == '__main__':

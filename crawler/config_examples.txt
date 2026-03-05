@@ -1,0 +1,275 @@
+# Configuration Examples for news_country_crawler.py
+
+# This file shows how to customize the crawler for your needs.
+# Copy these snippets into news_country_crawler.py to modify behavior.
+
+# =============================================================================
+# EXAMPLE 1: Adding More News Sources
+# =============================================================================
+
+# Add these to the NEWS_SOURCES list:
+
+{
+    'name': 'Associated Press',
+    'start_urls': ['https://apnews.com/'],
+    'allowed_domains': ['apnews.com'],
+    'title_selector': 'h2.PagePromo-title::text, h3.PagePromo-title::text'
+},
+{
+    'name': 'New York Times',
+    'start_urls': ['https://www.nytimes.com/section/world'],
+    'allowed_domains': ['nytimes.com'],
+    'title_selector': 'h3.indicate-hover::text, h2.indicate-hover::text'
+},
+{
+    'name': 'Washington Post',
+    'start_urls': ['https://www.washingtonpost.com/world/'],
+    'allowed_domains': ['washingtonpost.com'],
+    'title_selector': 'h2.font--headline::text, h3.font--headline::text'
+},
+{
+    'name': 'NPR',
+    'start_urls': ['https://www.npr.org/sections/world/'],
+    'allowed_domains': ['npr.org'],
+    'title_selector': 'h2.title::text, h3.title::text'
+},
+
+# =============================================================================
+# EXAMPLE 2: Adding Custom Countries or Territories
+# =============================================================================
+
+# Add these to the COUNTRY_DATA dictionary:
+
+'Hong Kong': {
+    'iso': 'HKG',
+    'aliases': ['Hong Kong', 'HK', 'Hongkong', 'Hong Kong SAR']
+},
+'Greenland': {
+    'iso': 'GRL',
+    'aliases': ['Greenland', 'Greenlandic']
+},
+'Puerto Rico': {
+    'iso': 'PRI',
+    'aliases': ['Puerto Rico', 'Puerto Rican']
+},
+'Catalonia': {
+    'iso': 'CAT',  # Note: Not an official ISO code
+    'aliases': ['Catalonia', 'Catalan', 'Catalunya']
+},
+
+# =============================================================================
+# EXAMPLE 3: Adjusting Scraper Settings for Different Behaviors
+# =============================================================================
+
+# To be MORE AGGRESSIVE (faster, but may get blocked):
+custom_settings = {
+    'USER_AGENT': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+    'ROBOTSTXT_OBEY': True,
+    'CONCURRENT_REQUESTS': 8,  # Increased from 4
+    'DOWNLOAD_DELAY': 0.5,      # Decreased from 1
+    'COOKIES_ENABLED': False,
+    'TELNETCONSOLE_ENABLED': False,
+    'LOG_LEVEL': 'INFO',
+}
+
+# To be MORE POLITE (slower, less likely to be blocked):
+custom_settings = {
+    'USER_AGENT': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+    'ROBOTSTXT_OBEY': True,
+    'CONCURRENT_REQUESTS': 2,  # Decreased from 4
+    'DOWNLOAD_DELAY': 2,        # Increased from 1
+    'COOKIES_ENABLED': False,
+    'TELNETCONSOLE_ENABLED': False,
+    'LOG_LEVEL': 'INFO',
+}
+
+# =============================================================================
+# EXAMPLE 4: Regional News Sources
+# =============================================================================
+
+# EUROPEAN SOURCES:
+{
+    'name': 'Deutsche Welle',
+    'start_urls': ['https://www.dw.com/en/top-stories/s-9097'],
+    'allowed_domains': ['dw.com'],
+    'title_selector': 'h2::text, h3::text'
+},
+{
+    'name': 'France 24',
+    'start_urls': ['https://www.france24.com/en/'],
+    'allowed_domains': ['france24.com'],
+    'title_selector': 'h2.article__title::text, h3.article__title::text'
+},
+
+# ASIAN SOURCES:
+{
+    'name': 'NHK World',
+    'start_urls': ['https://www3.nhk.or.jp/nhkworld/en/news/'],
+    'allowed_domains': ['nhk.or.jp'],
+    'title_selector': 'h1.content--detail-title::text, h2::text'
+},
+{
+    'name': 'South China Morning Post',
+    'start_urls': ['https://www.scmp.com/news/world'],
+    'allowed_domains': ['scmp.com'],
+    'title_selector': 'h2::text, h3::text'
+},
+
+# MIDDLE EASTERN SOURCES:
+{
+    'name': 'The Times of Israel',
+    'start_urls': ['https://www.timesofisrael.com/'],
+    'allowed_domains': ['timesofisrael.com'],
+    'title_selector': 'h3.headline::text'
+},
+
+# AFRICAN SOURCES:
+{
+    'name': 'Africa News',
+    'start_urls': ['https://www.africanews.com/'],
+    'allowed_domains': ['africanews.com'],
+    'title_selector': 'h2::text, h3::text'
+},
+
+# =============================================================================
+# EXAMPLE 5: Adding Historical Country Names
+# =============================================================================
+
+# For historical analysis, you might want to add old names:
+
+'Yugoslavia': {
+    'iso': 'YUG',  # No longer official
+    'aliases': ['Yugoslavia', 'Yugoslav']
+},
+'Soviet Union': {
+    'iso': 'SUN',  # No longer official
+    'aliases': ['Soviet Union', 'USSR', 'Soviet']
+},
+'East Germany': {
+    'iso': 'DDR',
+    'aliases': ['East Germany', 'GDR', 'German Democratic Republic']
+},
+'West Germany': {
+    'iso': 'DEU',
+    'aliases': ['West Germany', 'FRG', 'Federal Republic of Germany']
+},
+
+# =============================================================================
+# EXAMPLE 6: Custom Title Filtering
+# =============================================================================
+
+# Add this function to filter out certain titles:
+
+def is_valid_title(title):
+    """Filter out unwanted titles"""
+    # Skip titles that are too short
+    if len(title) < 15:
+        return False
+    
+    # Skip titles that are just categories
+    blacklist = ['opinion', 'analysis', 'video', 'photos', 'gallery', 
+                 'live updates', 'breaking', 'watch now']
+    title_lower = title.lower()
+    if any(word in title_lower for word in blacklist):
+        return False
+    
+    return True
+
+# Then modify the parse method:
+for title in titles:
+    title = title.strip()
+    if is_valid_title(title):  # Add this check
+        self.collected_titles.append({
+            'title': title,
+            'source': domain,
+            'url': response.url
+        })
+
+# =============================================================================
+# EXAMPLE 7: Logging Detailed Statistics
+# =============================================================================
+
+# Add this to the end of calculate_country_probabilities():
+
+# Print statistics
+print(f"\nStatistics:")
+print(f"  Total articles analyzed: {total_articles}")
+print(f"  Articles with country mentions: {sum(1 for c in country_mentions.values() if c > 0)}")
+print(f"  Total country mentions: {sum(country_mentions.values())}")
+print(f"  Average mentions per article: {sum(country_mentions.values()) / total_articles:.2f}")
+print(f"  Countries never mentioned: {len([c for c in COUNTRY_DATA if country_mentions.get(c, 0) == 0])}")
+
+# =============================================================================
+# EXAMPLE 8: Exporting Additional Formats
+# =============================================================================
+
+# Add these functions for different export formats:
+
+def export_to_json(csv_data, output_file='country_probabilities.json'):
+    """Export results as JSON"""
+    import json
+    with open(output_file, 'w', encoding='utf-8') as f:
+        json.dump(csv_data, f, indent=2)
+    print(f"JSON results saved to {output_file}")
+
+def export_to_excel(csv_data, output_file='country_probabilities.xlsx'):
+    """Export results as Excel (requires openpyxl)"""
+    try:
+        import openpyxl
+        from openpyxl import Workbook
+        
+        wb = Workbook()
+        ws = wb.active
+        ws.title = "Country Probabilities"
+        
+        # Headers
+        ws.append(['Country', 'ISO Code', 'Probability (per 100 articles)'])
+        
+        # Data
+        for item in csv_data:
+            ws.append([item['country'], item['country_ISO'], item['value']])
+        
+        wb.save(output_file)
+        print(f"Excel results saved to {output_file}")
+    except ImportError:
+        print("openpyxl not installed. Run: pip install openpyxl")
+
+# =============================================================================
+# TIPS FOR CSS SELECTORS
+# =============================================================================
+
+# How to find the right CSS selector:
+# 1. Open the news website in Chrome/Firefox
+# 2. Right-click on a headline and select "Inspect"
+# 3. In the developer tools, right-click on the HTML element
+# 4. Select: Copy > Copy selector
+# 5. Simplify the selector (remove unnecessary IDs/classes)
+
+# Common patterns:
+# - Headlines: h1::text, h2::text, h3::text
+# - With class: h2.headline::text, div.article-title::text
+# - Multiple options: h2::text, h3::text (comma-separated)
+# - Nested: div.article h2::text
+
+# Testing selectors:
+# Run scrapy shell "https://example.com" in terminal, then:
+# response.css('h2::text').getall()
+
+# =============================================================================
+# RATE LIMIT RECOMMENDATIONS BY NEWS SOURCE
+# =============================================================================
+
+# Conservative (recommended for first-time use):
+#   DOWNLOAD_DELAY: 2 seconds
+#   CONCURRENT_REQUESTS: 2
+
+# Moderate (default in script):
+#   DOWNLOAD_DELAY: 1 second
+#   CONCURRENT_REQUESTS: 4
+
+# Aggressive (only if you know the site allows it):
+#   DOWNLOAD_DELAY: 0.5 seconds
+#   CONCURRENT_REQUESTS: 8
+
+# Note: Some sites (like NYT) may require you to be logged in or 
+# may block scrapers entirely. Always respect robots.txt!
